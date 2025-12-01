@@ -26,7 +26,9 @@ class AdventOfCode2024(ConanFile):
         tc.generate()
         
         year = 2025
-        for day in range(1, 2 ):
+        currentDay = aocd.get.current_day()
+        currentDay = currentDay if currentDay <= 12 else 12
+        for day in range(1, currentDay + 1):
             inputFileName = os.path.join( self.source_folder, "src", "Day{:02d}".format(day), "input.txt" )
             print( inputFileName )
             fh = open( inputFileName, "w" )
