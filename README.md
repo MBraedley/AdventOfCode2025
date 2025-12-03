@@ -14,8 +14,11 @@ and will be using the [Conan](https://conan.io/) package manager as I'm already 
 - [CMake](https://cmake.org/) - `pip install cmake`
 - [aocd](https://github.com/wimglenn/advent-of-code-data) - `pip install advent-of-code-data`, `pip install browser-cookie3`
 
-The following C++ dependencies are gathered with Conan (nothing for you to do)
+### Dependencies
 
+Dependencies are gathered with Conan.  AdventOfCodeUtils needs to be created in your local conan cache before use.  All other dependencies are retrieved from Conan Center.
+
+- [AdventOfCodeUtils](https://github.com/MBraedley/AdventOfCodeUtils)
 - [CTRE](https://github.com/hanickadot/compile-time-regular-expressions)
 
 ### Build
