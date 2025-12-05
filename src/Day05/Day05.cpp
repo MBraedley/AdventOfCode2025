@@ -4,15 +4,45 @@
 #include "Day05.h"
 #include "Utils.h"
 
-#include <ranges>
-
 int main()
 {
 	auto startTime = std::chrono::system_clock::now();
 
-	auto input = utils::ReadInput( "../Day05_input.txt" );
+	std::filesystem::path inputFile( "../Day05_input.txt" );
 
-	//utils::PrintResult(val, startTime);
+	std::ifstream istrm( inputFile );
+
+	std::vector<std::pair<std::uint64_t, std::uint64_t>> ranges;
+
+	std::uint64_t first, last, item;
+	char c;
+
+	std::string line;
+	std::getline( istrm, line );
+
+	while( !line.empty() )
+	{
+		std::stringstream sstrm( line );
+		sstrm >> first >> c >> last;
+		ranges.emplace_back( first, last );
+		std::getline( istrm, line );
+	}
+
+	std::uint32_t count = 0;
+	
+	while( istrm >> item )
+	{
+		for( const auto& [r1, r2] : ranges )
+		{
+			if( item >= r1 && item <= r2 )
+			{
+				count++;
+				break;
+			}
+		}
+	}
+
+	utils::PrintResult(count, startTime);
 
 	//Part 2:
 
