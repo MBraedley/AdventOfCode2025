@@ -15,6 +15,7 @@ int main()
 
 	std::set<utils::Pos> rolls;
 	std::set<utils::Pos> accessible;
+	std::set<utils::Pos> nextToCheck;
 
 	for( std::size_t y = 0; y < input.size(); y++ )
 	{
@@ -38,6 +39,7 @@ int main()
 		if( intersecting.size() < 4 )
 		{
 			accessible.insert( roll );
+			nextToCheck.insert(intersecting.begin(), intersecting.end());
 		}
 	}
 
@@ -50,6 +52,8 @@ int main()
 	while( accessible.size() > 0 )
 	{
 		std::set<utils::Pos> remaining;
+		std::set<utils::Pos> checkThisIter;
+		std::swap(checkThisIter, nextToCheck);
 
 		std::set_difference( rolls.begin(), rolls.end(), accessible.begin(), accessible.end(), std::inserter( remaining, remaining.end() ) );
 
@@ -57,7 +61,7 @@ int main()
 
 		accessible.clear();
 
-		for( const auto& roll : rolls )
+		for( const auto& roll : checkThisIter )
 		{
 			auto neighbours = roll.GetNeighbours( input );
 
@@ -68,6 +72,7 @@ int main()
 			if( intersecting.size() < 4 )
 			{
 				accessible.insert( roll );
+				nextToCheck.insert(intersecting.begin(), intersecting.end());
 			}
 		}
 	}
