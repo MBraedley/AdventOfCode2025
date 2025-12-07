@@ -4,6 +4,9 @@
 #include "Day05.h"
 #include "Utils.h"
 
+#include <ranges>
+#include <algorithm>
+
 int main()
 {
 	auto startTime = std::chrono::system_clock::now();
@@ -46,8 +49,36 @@ int main()
 
 	//Part 2:
 
+	std::ranges::sort(std::views::all(ranges), [](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
 
-	//utils::PrintResult(val, startTime);
+	std::deque<std::pair<std::uint64_t, std::uint64_t>> rangesDeque = ranges | std::ranges::to<std::deque<std::pair<std::uint64_t, std::uint64_t>>>();
+	std::deque<std::pair<std::uint64_t, std::uint64_t>> resultRanges;
+
+	resultRanges.push_back(rangesDeque.front());
+	rangesDeque.pop_front();
+
+	while (!rangesDeque.empty())
+	{
+		if (rangesDeque.front().first > resultRanges.back().second)
+		{
+			resultRanges.push_back(rangesDeque.front());
+		}
+		else if (rangesDeque.front().second > resultRanges.back().second)
+		{
+			resultRanges.back().second = rangesDeque.front().second;
+		}
+
+		rangesDeque.pop_front();
+	}
+
+	std::uint64_t val = 0;
+
+	for (const auto& [left, right] : resultRanges)
+	{
+		val += right - left + 1;
+	}
+
+	utils::PrintResult(val, startTime);
 
 	return 0;
 }
